@@ -1,0 +1,55 @@
+<div class="grid gap-5 md:grid-cols-2">
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Training') }}</label>
+        <select name="training_id" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            @foreach ($trainings as $trainingItem)
+                <option value="{{ $trainingItem->id }}" @selected(old('training_id', $session->training_id ?? '') == $trainingItem->id)>{{ $trainingItem->title_fr }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Trainer') }}</label>
+        <select name="trainer_id" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            <option value="">{{ __('Select a trainer') }}</option>
+            @foreach ($trainers as $trainer)
+                <option value="{{ $trainer->id }}" @selected(old('trainer_id', $session->trainer_id ?? '') == $trainer->id)>{{ $trainer->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Start date') }}</label>
+        <input type="datetime-local" name="starts_at" value="{{ old('starts_at', isset($session) ? $session->starts_at?->format('Y-m-d\TH:i') : '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('End date') }}</label>
+        <input type="datetime-local" name="ends_at" value="{{ old('ends_at', isset($session) ? $session->ends_at?->format('Y-m-d\TH:i') : '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Capacity') }}</label>
+        <input type="number" name="capacity" value="{{ old('capacity', $session->capacity ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Mode') }}</label>
+        <select name="mode" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            @foreach ($modes as $mode)
+                <option value="{{ $mode->value }}" @selected(old('mode', $session->mode->value ?? '') === $mode->value)>{{ $mode->label() }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('City') }}</label>
+        <input type="text" name="city" value="{{ old('city', $session->city ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Meeting link') }}</label>
+        <input type="url" name="meeting_link" value="{{ old('meeting_link', $session->meeting_link ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+    </div>
+    <div>
+        <label class="mb-2 block text-sm font-semibold">{{ __('Status') }}</label>
+        <select name="status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+            @foreach ($statuses as $status)
+                <option value="{{ $status->value }}" @selected(old('status', $session->status->value ?? 'scheduled') === $status->value)>{{ $status->label() }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
