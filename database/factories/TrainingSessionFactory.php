@@ -13,10 +13,13 @@ class TrainingSessionFactory extends Factory
     public function definition(): array
     {
         $startsAt = now()->addDays(rand(5, 40));
+        $trainerId = User::role('Trainer')->inRandomOrder()->value('id')
+            ?: User::query()->inRandomOrder()->value('id')
+            ?: User::factory();
 
         return [
             'training_id' => Training::factory(),
-            'trainer_id' => User::factory(),
+            'trainer_id' => $trainerId,
             'starts_at' => $startsAt,
             'ends_at' => (clone $startsAt)->addDays(rand(1, 3)),
             'capacity' => fake()->numberBetween(8, 25),

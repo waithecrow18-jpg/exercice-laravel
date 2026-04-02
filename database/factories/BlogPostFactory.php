@@ -11,9 +11,14 @@ class BlogPostFactory extends Factory
 {
     public function definition(): array
     {
+        $authorId = User::role(['Super Admin', 'Admin', 'Trainer'])->inRandomOrder()->value('id')
+            ?: User::query()->inRandomOrder()->value('id')
+            ?: User::factory();
+        $categoryId = Category::query()->inRandomOrder()->value('id') ?: Category::factory();
+
         return [
-            'category_id' => Category::factory(),
-            'author_id' => User::factory(),
+            'category_id' => $categoryId,
+            'author_id' => $authorId,
             'title_fr' => fake()->unique()->sentence(4),
             'title_en' => fake()->unique()->sentence(4),
             'content_fr' => fake()->paragraphs(5, true),

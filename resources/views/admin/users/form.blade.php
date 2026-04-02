@@ -1,28 +1,35 @@
+@php
+    $user = $user ?? null;
+    $selectedLocale = old('preferred_locale', $user?->preferred_locale ?? 'fr');
+    $selectedRole = old('role', data_get($user, 'roles.0.name', ''));
+    $selectedStatus = old('status', data_get($user, 'status.value', 'active'));
+@endphp
+
 <div class="grid gap-5 md:grid-cols-2">
     <div>
         <label class="mb-2 block text-sm font-semibold text-slate-700">{{ __('Name') }}</label>
-        <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3" required>
+        <input type="text" name="name" value="{{ old('name', $user?->name ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3" required>
     </div>
     <div>
         <label class="mb-2 block text-sm font-semibold text-slate-700">{{ __('Email') }}</label>
-        <input type="email" name="email" value="{{ old('email', $user->email ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3" required>
+        <input type="email" name="email" value="{{ old('email', $user?->email ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3" required>
     </div>
     <div>
         <label class="mb-2 block text-sm font-semibold text-slate-700">{{ __('Phone') }}</label>
-        <input type="text" name="phone" value="{{ old('phone', $user->phone ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
+        <input type="text" name="phone" value="{{ old('phone', $user?->phone ?? '') }}" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
     </div>
     <div>
         <label class="mb-2 block text-sm font-semibold text-slate-700">{{ __('Language') }}</label>
         <select name="preferred_locale" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
-            <option value="fr" @selected(old('preferred_locale', $user->preferred_locale ?? 'fr') === 'fr')>Francais</option>
-            <option value="en" @selected(old('preferred_locale', $user->preferred_locale ?? 'fr') === 'en')>English</option>
+            <option value="fr" @selected($selectedLocale === 'fr')>Francais</option>
+            <option value="en" @selected($selectedLocale === 'en')>English</option>
         </select>
     </div>
     <div>
         <label class="mb-2 block text-sm font-semibold text-slate-700">{{ __('Role') }}</label>
         <select name="role" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
             @foreach ($roles as $role)
-                <option value="{{ $role }}" @selected(old('role', $user->roles->first()->name ?? '') === $role)>{{ $role }}</option>
+                <option value="{{ $role }}" @selected($selectedRole === $role)>{{ $role }}</option>
             @endforeach
         </select>
     </div>
@@ -30,7 +37,7 @@
         <label class="mb-2 block text-sm font-semibold text-slate-700">{{ __('Status') }}</label>
         <select name="status" class="w-full rounded-2xl border border-slate-200 px-4 py-3">
             @foreach ($statuses as $status)
-                <option value="{{ $status->value }}" @selected(old('status', $user->status->value ?? 'active') === $status->value)>{{ $status->label() }}</option>
+                <option value="{{ $status->value }}" @selected($selectedStatus === $status->value)>{{ $status->label() }}</option>
             @endforeach
         </select>
     </div>

@@ -12,9 +12,14 @@ class EnrollmentFactory extends Factory
 {
     public function definition(): array
     {
+        $participantId = User::role('Participant')->inRandomOrder()->value('id')
+            ?: User::query()->inRandomOrder()->value('id')
+            ?: User::factory();
+        $sessionId = TrainingSession::query()->inRandomOrder()->value('id') ?: TrainingSession::factory();
+
         return [
-            'user_id' => User::factory(),
-            'training_session_id' => TrainingSession::factory(),
+            'user_id' => $participantId,
+            'training_session_id' => $sessionId,
             'reference' => 'INS-'.Str::upper(Str::random(8)),
             'status' => fake()->randomElement([
                 EnrollmentStatus::Pending->value,

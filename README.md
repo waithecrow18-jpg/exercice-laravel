@@ -73,11 +73,16 @@ php artisan storage:link
 php artisan serve
 ```
 
-## Comptes de demo
+## Comptes de demo realistes
 
-- Super Admin: `admin@trainup.test` / `password`
-- Trainer: `trainer@trainup.test` / `password`
-- Participant: `participant@trainup.test` / `password`
+- Super Admin: `salma.bennani@trainup.ma` / `Salma@TrainUp26!`
+- Admin: `karim.elmansouri@trainup.ma` / `Karim#Ops2026!`
+- Trainer: `nora.kabbaj@trainup.ma` / `Nora@Trainer26!`
+- Trainer: `youssef.idrissi@trainup.ma` / `Youssef#Skill26!`
+- Participant: `amal.tazi@atlas-industries.ma` / `Amal@Atlas2026!`
+- Participant: `omar.belghiti@novacore.ma` / `Omar#Nova2026!`
+- Participant: `sara.lahlou@bluehorizon.ma` / `Sara@Blue2026!`
+- Participant: `hamza.chaoui@northwind.ma` / `Hamza#North26!`
 
 ## Fonctionnalites principales
 

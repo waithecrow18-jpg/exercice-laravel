@@ -32,7 +32,7 @@ class ContactController extends Controller
             'locale' => $locale,
         ]);
 
-        Mail::to(site_setting('admin_email', 'admin@trainup.test'))
+        Mail::to(site_setting('admin_email', 'salma.bennani@trainup.ma'))
             ->send(new ContactMessageReceivedMail($message));
 
         return response()->json([

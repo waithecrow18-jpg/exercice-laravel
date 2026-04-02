@@ -2,34 +2,40 @@
 @extends('layouts.admin')
 
 @section('content')
-    <section class="grid gap-4 md:grid-cols-5">
+    <div class="grid gap-4 md:grid-cols-5">
         @foreach ($stats as $label => $value)
-            <article class="rounded-3xl bg-white p-6 shadow-sm">
-                <p class="text-sm uppercase tracking-[0.2em] text-slate-500">{{ ucfirst($label) }}</p>
-                <p class="mt-3 text-4xl font-black text-slate-900">{{ $value }}</p>
+            <article class="stat-card">
+                <p class="eyebrow">{{ ucfirst($label) }}</p>
+                <p class="mt-3 text-4xl font-semibold text-slate-900">{{ $value }}</p>
             </article>
         @endforeach
-    </section>
+    </div>
 
-    <section class="rounded-3xl bg-white p-6 shadow-sm">
-        <h2 class="text-xl font-bold text-slate-900">{{ __('Latest enrollments') }}</h2>
+    <section>
+        <div class="flex items-center justify-between gap-3">
+            <div>
+                <p class="eyebrow">{{ __('Recent activity') }}</p>
+                <h2 class="mt-2 text-2xl font-semibold text-slate-900">{{ __('Latest enrollments') }}</h2>
+            </div>
+            <span class="tag-chip">{{ $latestEnrollments->count() }} {{ __('records') }}</span>
+        </div>
         <div class="mt-4 overflow-x-auto">
-            <table class="min-w-full text-sm">
-                <thead class="text-left text-slate-500">
+            <table>
+                <thead>
                     <tr>
-                        <th class="pb-3">{{ __('Reference') }}</th>
-                        <th class="pb-3">{{ __('Participant') }}</th>
-                        <th class="pb-3">{{ __('Training') }}</th>
-                        <th class="pb-3">{{ __('Status') }}</th>
+                        <th>{{ __('Reference') }}</th>
+                        <th>{{ __('Participant') }}</th>
+                        <th>{{ __('Training') }}</th>
+                        <th>{{ __('Status') }}</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody>
                     @foreach ($latestEnrollments as $enrollment)
                         <tr>
-                            <td class="py-3 font-semibold">{{ $enrollment->reference }}</td>
-                            <td class="py-3">{{ $enrollment->user?->name }}</td>
-                            <td class="py-3">{{ $enrollment->session?->training?->localize('title') }}</td>
-                            <td class="py-3">
+                            <td class="font-semibold">{{ $enrollment->reference }}</td>
+                            <td>{{ $enrollment->user?->name }}</td>
+                            <td>{{ $enrollment->session?->training?->localize('title') }}</td>
+                            <td>
                                 <span class="rounded-full px-3 py-1 text-xs font-semibold {{ status_badge_class($enrollment->status->value) }}">
                                     {{ $enrollment->status->label() }}
                                 </span>

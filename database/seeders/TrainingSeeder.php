@@ -17,41 +17,41 @@ class TrainingSeeder extends Seeder
 {
     public function run(): void
     {
-        $trainer = User::query()->where('email', 'trainer@trainup.test')->firstOrFail();
-        $participant = User::query()->where('email', 'participant@trainup.test')->firstOrFail();
+        $trainer = User::role('Trainer')->orderBy('name')->firstOrFail();
+        $participant = User::role('Participant')->orderBy('name')->firstOrFail();
 
         $trainings = [
             [
                 'category' => 'Marketing digital',
-                'title_fr' => 'Maîtriser la publicité sur les réseaux sociaux',
+                'title_fr' => 'Maitriser la publicite sur les reseaux sociaux',
                 'title_en' => 'Master social media advertising',
                 'short_description_fr' => 'Une formation pratique pour lancer des campagnes Meta et LinkedIn efficaces.',
                 'short_description_en' => 'A hands-on course to launch effective Meta and LinkedIn campaigns.',
-                'full_description_fr' => 'Apprenez à définir vos audiences, construire vos annonces, suivre les conversions et optimiser votre budget sur plusieurs plateformes sociales.',
+                'full_description_fr' => 'Apprenez a definir vos audiences, construire vos annonces, suivre les conversions et optimiser votre budget sur plusieurs plateformes sociales.',
                 'full_description_en' => 'Learn how to define audiences, craft ad creatives, track conversions, and optimize your budget across multiple social platforms.',
                 'price' => 1200,
                 'duration_hours' => 16,
                 'level' => 'Intermediate',
             ],
             [
-                'category' => 'Développement web',
-                'title_fr' => 'Laravel avancé pour applications métiers',
+                'category' => 'Developpement web',
+                'title_fr' => 'Laravel avance pour applications metier',
                 'title_en' => 'Advanced Laravel for business applications',
-                'short_description_fr' => 'Architecture, API, sécurité et bonnes pratiques pour projets Laravel professionnels.',
+                'short_description_fr' => 'Architecture, API, securite et bonnes pratiques pour projets Laravel professionnels.',
                 'short_description_en' => 'Architecture, APIs, security, and best practices for professional Laravel projects.',
-                'full_description_fr' => 'Cette formation couvre la structuration d’un projet Laravel, les patterns utiles, les tests, l’API REST et la gestion des performances.',
+                'full_description_fr' => 'Cette formation couvre la structuration dun projet Laravel, les patterns utiles, les tests, lAPI REST et la gestion des performances.',
                 'full_description_en' => 'This course covers Laravel project structure, useful patterns, testing, REST APIs, and performance considerations.',
                 'price' => 1800,
                 'duration_hours' => 24,
                 'level' => 'Advanced',
             ],
             [
-                'category' => 'Analyse de données',
-                'title_fr' => 'Power BI pour décideurs',
+                'category' => 'Analyse de donnees',
+                'title_fr' => 'Power BI pour decideurs',
                 'title_en' => 'Power BI for decision makers',
                 'short_description_fr' => 'Construisez des tableaux de bord lisibles et utiles pour le pilotage.',
                 'short_description_en' => 'Build readable and useful dashboards for decision-making.',
-                'full_description_fr' => 'De la modélisation des données à la visualisation, cette formation aide à transformer vos chiffres en tableaux de bord exploitables.',
+                'full_description_fr' => 'De la modelisation des donnees a la visualisation, cette formation aide a transformer vos chiffres en tableaux de bord exploitables.',
                 'full_description_en' => 'From data modeling to visualization, this course helps turn numbers into actionable dashboards.',
                 'price' => 950,
                 'duration_hours' => 12,
@@ -63,7 +63,7 @@ class TrainingSeeder extends Seeder
             $category = Category::query()->where('name_fr', $data['category'])->firstOrFail();
 
             $training = Training::updateOrCreate(
-                ['title_fr' => $data['title_fr']],
+                ['title_en' => $data['title_en']],
                 [
                     'category_id' => $category->id,
                     'title_fr' => $data['title_fr'],
@@ -103,7 +103,7 @@ class TrainingSeeder extends Seeder
                         1 => null,
                         default => 'Rabat',
                     },
-                    'meeting_link' => 'https://meet.example.com/session-'.$index,
+                    'meeting_link' => 'https://meet.trainup.ma/session-'.($index + 1),
                     'status' => SessionStatus::Scheduled->value,
                 ]
             );
@@ -115,7 +115,7 @@ class TrainingSeeder extends Seeder
                         'training_session_id' => $session->id,
                     ],
                     [
-                        'reference' => 'INS-DEMO001',
+                        'reference' => 'INS-ATLAS001',
                         'status' => EnrollmentStatus::Confirmed->value,
                         'confirmed_at' => now()->subDay(),
                     ]

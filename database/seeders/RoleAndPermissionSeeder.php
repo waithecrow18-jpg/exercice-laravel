@@ -55,43 +55,116 @@ class RoleAndPermissionSeeder extends Seeder
         ]);
         $participant->syncPermissions([]);
 
-        $adminUser = User::updateOrCreate(
-            ['email' => 'admin@trainup.test'],
+        $profiles = [
             [
-                'name' => 'Super Admin',
-                'phone' => '+212600000001',
+                'role' => $superAdmin,
+                'name' => 'Salma Bennani',
+                'email' => 'salma.bennani@trainup.ma',
+                'legacy_email' => 'admin@trainup.test',
+                'password' => 'Salma@TrainUp26!',
+                'phone' => '+212661240315',
                 'preferred_locale' => 'fr',
-                'status' => UserStatus::Active->value,
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-            ]
-        );
-        $adminUser->syncRoles([$superAdmin]);
-
-        $trainerUser = User::updateOrCreate(
-            ['email' => 'trainer@trainup.test'],
+                'last_activity_at' => now()->subMinutes(12),
+            ],
             [
-                'name' => 'Lead Trainer',
-                'phone' => '+212600000002',
+                'role' => $admin,
+                'name' => 'Karim El Mansouri',
+                'email' => 'karim.elmansouri@trainup.ma',
+                'password' => 'Karim#Ops2026!',
+                'phone' => '+212661240421',
                 'preferred_locale' => 'fr',
-                'status' => UserStatus::Active->value,
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-            ]
-        );
-        $trainerUser->syncRoles([$trainer]);
-
-        $participantUser = User::updateOrCreate(
-            ['email' => 'participant@trainup.test'],
+                'last_activity_at' => now()->subMinutes(28),
+            ],
             [
-                'name' => 'Demo Participant',
-                'phone' => '+212600000003',
+                'role' => $trainer,
+                'name' => 'Nora Kabbaj',
+                'email' => 'nora.kabbaj@trainup.ma',
+                'legacy_email' => 'trainer@trainup.test',
+                'password' => 'Nora@Trainer26!',
+                'phone' => '+212661240532',
+                'preferred_locale' => 'fr',
+                'last_activity_at' => now()->subMinutes(34),
+            ],
+            [
+                'role' => $trainer,
+                'name' => 'Youssef Idrissi',
+                'email' => 'youssef.idrissi@trainup.ma',
+                'password' => 'Youssef#Skill26!',
+                'phone' => '+212661240648',
                 'preferred_locale' => 'en',
-                'status' => UserStatus::Active->value,
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-            ]
-        );
-        $participantUser->syncRoles([$participant]);
+                'last_activity_at' => now()->subMinutes(41),
+            ],
+            [
+                'role' => $participant,
+                'name' => 'Amal Tazi',
+                'email' => 'amal.tazi@atlas-industries.ma',
+                'legacy_email' => 'participant@trainup.test',
+                'password' => 'Amal@Atlas2026!',
+                'phone' => '+212661240754',
+                'preferred_locale' => 'fr',
+                'last_activity_at' => now()->subMinutes(55),
+            ],
+            [
+                'role' => $participant,
+                'name' => 'Omar Belghiti',
+                'email' => 'omar.belghiti@novacore.ma',
+                'password' => 'Omar#Nova2026!',
+                'phone' => '+212661240865',
+                'preferred_locale' => 'fr',
+                'last_activity_at' => now()->subMinutes(63),
+            ],
+            [
+                'role' => $participant,
+                'name' => 'Sara Lahlou',
+                'email' => 'sara.lahlou@bluehorizon.ma',
+                'password' => 'Sara@Blue2026!',
+                'phone' => '+212661240976',
+                'preferred_locale' => 'en',
+                'last_activity_at' => now()->subMinutes(74),
+            ],
+            [
+                'role' => $participant,
+                'name' => 'Hamza Chaoui',
+                'email' => 'hamza.chaoui@northwind.ma',
+                'password' => 'Hamza#North26!',
+                'phone' => '+212661241087',
+                'preferred_locale' => 'fr',
+                'last_activity_at' => now()->subMinutes(86),
+            ],
+        ];
+
+        foreach ($profiles as $profile) {
+            $role = $profile['role'];
+            $user = User::query()
+                ->where('email', $profile['email'])
+                ->when(isset($profile['legacy_email']), fn ($query) => $query->orWhere('email', $profile['legacy_email']))
+                ->first();
+
+            if ($user) {
+                $user->fill([
+                    'name' => $profile['name'],
+                    'email' => $profile['email'],
+                    'phone' => $profile['phone'],
+                    'preferred_locale' => $profile['preferred_locale'],
+                    'status' => UserStatus::Active->value,
+                    'last_activity_at' => $profile['last_activity_at'],
+                    'email_verified_at' => now()->subDays(3),
+                    'password' => Hash::make($profile['password']),
+                ])->save();
+            } else {
+                $user = User::create([
+                    'name' => $profile['name'],
+                    'email' => $profile['email'],
+                    'phone' => $profile['phone'],
+                    'preferred_locale' => $profile['preferred_locale'],
+                    'status' => UserStatus::Active->value,
+                    'last_activity_at' => $profile['last_activity_at'],
+                    'email_verified_at' => now()->subDays(3),
+                    'password' => Hash::make($profile['password']),
+                ]);
+            }
+
+            $user->syncRoles([$role]);
+        }
     }
 }

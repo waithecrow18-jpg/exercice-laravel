@@ -12,10 +12,10 @@ class SiteSettingSeeder extends Seeder
         $settings = [
             'site_name' => 'TrainUp Academy',
             'site_tagline' => 'Plateforme bilingue de gestion de formations',
-            'admin_email' => 'admin@trainup.test',
-            'site_phone' => '+212 600 000 000',
-            'home_hero_fr' => 'Développez vos compétences avec des formations concrètes.',
-            'home_hero_en' => 'Build practical skills with modern training programs.',
+            'admin_email' => 'salma.bennani@trainup.ma',
+            'site_phone' => '+212 661 240 315',
+            'home_hero_fr' => 'Developpez les competences de vos equipes avec des parcours concrets.',
+            'home_hero_en' => 'Build real skills with practical, modern training programs.',
         ];
 
         foreach ($settings as $key => $value) {
